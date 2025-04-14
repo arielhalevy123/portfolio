@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ariel Halevy - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+</head>
+<body>
+    <header class="header">
+        <img src="photos/signature.png" alt="Signature" class="signature">
+        <nav class="navbar">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    
+    <section class="home" id="home">
+        <div class="home-container">
+            <div class="home-img-container" data-aos="fade-left">
+                <img src="photos/ariel_profile_pic.JPG" alt="Ariel Halevy" class="profile-img">
+            </div>
+            <div class="home-text" data-aos="fade-right">
+                <h1 class="title">Hello, It's Me</h1>
+                <h2>Ariel Halevy</h2>
+                <p>And I'm a <span id="typing-text"></span></p>
+                <p>Passionate about building robust, scalable applications and diving into system programming.</p>
+                <div class="social-media">
+                    <a href="https://github.com/arielhalevy123"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/ariel-halevy/"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="about-text" data-aos="fade-right">
+                <h2>About Me</h2>
+                <p>Hey there! I'm Ariel Halevy, a passionate software engineer who loves turning ideas into innovative solutions. With expertise in backend development, databases, and system architecture, I enjoy tackling complex problems and optimizing performance.</p>
+                <p>My journey in software development started with a curiosity for coding, which evolved into a deep passion for building scalable and efficient applications. Whether it's designing a robust database, developing an interactive user experience, or optimizing algorithms, I'm always eager to learn and improve.</p>
+                <p>When I'm not coding, you’ll find me exploring new technologies, working on personal projects, or enjoying a good cup of coffee at my café.</p>
+            </div>
+            <div class="about-img-container" data-aos="fade-left">
+                <img src="photos/ariel_about.jpg" alt="Ariel Halevy" class="about-img">
+            </div>
+        </div>
+    </section>
+    
+    <section class="projects" id="projects" data-aos="fade-up">
+        <h2>My Projects</h2>
+    
+        <div class="project-card">
+            <img src="photos/yarcaffe.png" alt="Yarcafe Game">
+            <h3>Yarcafe Game</h3>
+            <div class="project-details">
+                <p><strong>Technologies:</strong> Java, Android Studio, XML</p>
+                <p><strong>Year:</strong> 2024</p>
+                <p><strong>Features:</strong> Funny pop-ups, dynamic interactions</p>
+                <a href="https://github.com/arielhalevy123/cafe_game" target="_blank">🔗 GitHub</a>
+            </div>
+        </div>
+    
+        <div class="project-card">
+            <img src="photos/smart_invest_logo-playstore.png" alt="Smart Invest">
+            <h3>Smart Invest</h3>
+            <div class="project-details">
+                <p><strong>Technologies:</strong> Python, Flask, AWS, Interactive Brokers API</p>
+                <p><strong>Year:</strong> 2024</p>
+                <p><strong>Features:</strong> Automated trading, AI-based investment strategy</p>
+                <a href="https://github.com/arielhalevy123/SmartInvest" target="_blank">🔗 GitHub</a>
+            </div>
+        </div>
+    
+        <div class="project-card">
+            <img src="photos/school.webp" alt="Driving School Database">
+            <h3>Driving School Database</h3>
+            <div class="project-details">
+                <p><strong>Technologies:</strong> SQL, PostgreSQL, Python</p>
+                <p><strong>Year:</strong> 2023</p>
+                <p><strong>Features:</strong> Student tracking, scheduling optimization</p>
+                <a href="https://github.com/arielhalevy123/arielhalevy_uribarzilay" target="_blank">🔗 GitHub</a>
+            </div>
+        </div>
+    
+        <div class="project-card">
+            <img src="photos/casino.jpeg" alt="Casino Mastermind">
+            <h3>Casino Mastermind</h3>
+            <div class="project-details">
+                <p><strong>Technologies:</strong> Python, SQL, Flask</p>
+                <p><strong>Year:</strong> 2023</p>
+                <p><strong>Features:</strong> Probability analysis, betting strategy simulation</p>
+                <a href="https://github.com/arielhalevy123/CasinoMastermind" target="_blank">🔗 GitHub</a>
+            </div>
+        </div>
+    </section>
+    
+        
+    <section class="contact" id="contact">
+        <h2>Contact Me</h2>
+        <form id="contact-form">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" required></textarea>
+            <button type="submit" class="button">Send</button>
+        </form>
+    </section>
+    
+    <section class="user-data-container">
+        <h2 class="animated-title">🔎 System Monitoring Dashboard</h2>
+        <div class="user-data">
+            <div class="terminal-box">
+                <pre id="user-info">Loading user data...</pre>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <p>&copy; 2025 Ariel Halevy | All Rights Reserved</p>
+    </footer>
+    
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+        gsap.from(".title", { opacity: 0, x: -50, duration: 1 });
+        var typed = new Typed("#typing-text", {
+            strings: ["Backend Developer", "Software Engineer"],
+            typeSpeed: 100,
+            backSpeed: 50,
+            startDelay: 500,
+            showCursor: false,
+            loop: true
+        });
+    </script>
+</body>
+</html>
