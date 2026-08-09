@@ -696,6 +696,27 @@ body {
     .stat-num { font-size: 1.2rem; }
 }
 
+/* Built-at attribution ---------------------------------------------------- */
+.built-at {
+    margin: 0.75rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+}
+.built-at a {
+    color: var(--fg-mute);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 4px;
+    transition: color var(--tr), text-decoration-color var(--tr);
+}
+.built-at a:hover,
+.built-at a:focus-visible {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+}
+.project-reverse .built-at { text-align: right; }
+
 /* Earlier ----------------------------------------------------------------- */
 .earlier-list {
     display: flex;
