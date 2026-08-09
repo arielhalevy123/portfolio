@@ -637,10 +637,13 @@ body {
 /* Project KPI dashboard -------------------------------------------------- */
 .project-stats {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.6rem;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    grid-auto-flow: column;
+    gap: 0.75rem;
     margin: 0 0 1rem;
     padding: 0;
+    width: 100%;
+    min-width: 0;
 }
 .project-stats dt,
 .project-stats dd { margin: 0; }
@@ -653,12 +656,13 @@ body {
     background: linear-gradient(180deg, var(--bg-elev-2) 0%, rgba(15, 20, 26, 0.55) 100%);
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 0.85rem 0.9rem 0.75rem;
+    padding: 0.75rem 0.7rem 0.7rem;
     display: flex;
     flex-direction: column-reverse;
     justify-content: flex-end;
     gap: 0.3rem;
     min-width: 0;
+    overflow: hidden;
     transition: border-color var(--tr), transform var(--tr), background var(--tr);
 }
 .project-reverse .stat-tile { text-align: right; }
@@ -671,27 +675,31 @@ body {
 
 .stat-num {
     font-family: var(--font-display);
-    font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+    font-size: clamp(1.05rem, 1.6vw, 1.35rem);
     font-weight: 600;
     color: var(--accent);
     line-height: 1.05;
     letter-spacing: -0.01em;
     word-break: break-word;
+    min-width: 0;
 }
 
 .stat-label {
     font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.14em;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--fg-mute);
-    line-height: 1.35;
+    line-height: 1.3;
+    min-width: 0;
+    word-break: break-word;
 }
 
 @media (max-width: 640px) {
     .project-stats,
     .project-stats.stats-3 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-flow: row;
     }
     .stat-num { font-size: 1.2rem; }
 }
