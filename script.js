@@ -1,114 +1,96 @@
-// document.getElementById("contact-form").addEventListener("submit", async function (event) {
-//     event.preventDefault(); // מונע רענון של הדף
+/*
+ * Ariel Halevy — Portfolio v2
+ * Minimal progressive enhancement. No dependencies.
+ */
 
-//     const name = document.getElementById("name").value;
-//     const email = document.getElementById("email").value;
-//     const message = document.getElementById("message").value;
+(() => {
+    'use strict';
 
-//     try {
-//         const response = await fetch("/contact", {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify({ name, email, message })
-//         });
+    const prefersReduced =
+        window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-//         const result = await response.json();
-//         alert(result.message);     // הצגת הודעה למשתמש
+    /* ---------- Spotlight (cursor-follow) ---------- */
+    const spotlight = document.querySelector('.spotlight');
+    if (spotlight && !prefersReduced && matchMedia('(pointer: fine)').matches) {
+        let raf = null;
+        window.addEventListener('mousemove', (e) => {
+            if (raf) return;
+            raf = requestAnimationFrame(() => {
+                spotlight.style.setProperty('--mx', e.clientX + 'px');
+                spotlight.style.setProperty('--my', e.clientY + 'px');
+                raf = null;
+            });
+        }, { passive: true });
+    } else if (spotlight) {
+        spotlight.style.opacity = '0';
+    }
 
-//         // ניקוי השדות אחרי שליחה מוצלחת
-//         document.getElementById("contact-form").reset();
-//     } catch (error) {
-//         console.error("❌ Error:", error);
-//         alert("Failed to send message. Please try again.");
-//     }
-// });
-document.addEventListener("DOMContentLoaded", async function () {
-    try {
-        console.log("🔄 Fetching user info...");
-        const response = await fetch("https://ariel-halevy-di5e.onrender.com/track");
+    /* ---------- Reveal on scroll ---------- */
+    const revealables = document.querySelectorAll('.reveal, .section');
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-in');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+        revealables.forEach((el) => io.observe(el));
+    } else {
+        revealables.forEach((el) => el.classList.add('is-in'));
+    }
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+    /* ---------- Nav section highlight ---------- */
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = Array.from(navLinks)
+        .map((a) => document.getElementById(a.dataset.section))
+        .filter(Boolean);
 
-        const userData = await response.json();
-        console.log("✅ User data received:", userData);
+    if ('IntersectionObserver' in window && sections.length) {
+        const setActive = (id) => {
+            navLinks.forEach((a) => {
+                a.classList.toggle('is-active', a.dataset.section === id);
+            });
+        };
 
-        // 🕒 חישוב הזמן לפי אזור הזמן של המשתמש
-        let userTime = "Unknown";
-        if (userData.timezone) {
-            try {
-                userTime = new Intl.DateTimeFormat("en-GB", {
-                    timeZone: userData.timezone,
-                    dateStyle: "full",
-                    timeStyle: "long"
-                }).format(new Date());
-            } catch (error) {
-                console.error("❌ Failed to format user time:", error);
+        const spy = new IntersectionObserver((entries) => {
+            // pick the entry closest to the top of the viewport that's visible
+            const visible = entries
+                .filter((e) => e.isIntersecting)
+                .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible[0]) setActive(visible[0].target.id);
+        }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+
+        sections.forEach((s) => spy.observe(s));
+    }
+
+    /* ---------- Smooth-scroll polyfill for older Safari ---------- */
+    document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener('click', (e) => {
+            const href = a.getAttribute('href');
+            if (!href || href === '#' || href.length < 2) return;
+            const target = document.getElementById(href.slice(1));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({
+                    behavior: prefersReduced ? 'auto' : 'smooth',
+                    block: 'start'
+                });
+                // move focus for a11y
+                target.setAttribute('tabindex', '-1');
+                target.focus({ preventScroll: true });
             }
-        }
-
-        // ⌨️ אפקט "כתיבה במסוף" להצגת הנתונים בצורה מרשימה
-        const terminalText = `
-==============================
-🔎 SYSTEM MONITORING DASHBOARD
-==============================
-
-🌍 IP Address: ${userData.ip}
-📍 Location: ${userData.location}
-🖥️ Browser: ${userData.browser}
-💻 Operating System: ${userData.os}
-📱 Device: ${userData.device}
-⏳ Local Time: ${userTime}
-🔮 Insight: ${userData.insight}
-
-==============================
-✅ Data retrieved successfully
-==============================
-`;
-
-        typeEffect(document.getElementById("user-info"), terminalText, 20);
-
-    } catch (error) {
-        console.error("❌ Error fetching user data:", error);
-        document.getElementById("user-info").innerText = `Error loading user info: ${error.message}`;
-    }
-});
-
-// ⌨️ פונקציה לאפקט הקלדה כמו במסוף
-function typeEffect(element, text, speed) {
-    let index = 0;
-    element.innerText = ""; // מנקה את התוכן הקודם
-    function type() {
-        if (index < text.length) {
-            element.innerText += text.charAt(index);
-            index++;
-            setTimeout(type, speed);
-        }
-    }
-    type();
-}
-function showDetails(projectCard) {
-    const details = projectCard.querySelector(".project-details");
-    details.style.opacity = "1";
-    details.style.transform = "translateY(0)";
-}
-
-function hideDetails(projectCard) {
-    const details = projectCard.querySelector(".project-details");
-    details.style.opacity = "0";
-    details.style.transform = "translateY(20px)";
-}
-document.addEventListener("DOMContentLoaded", function () {
-    const projectCards = document.querySelectorAll(".project-card");
-
-    projectCards.forEach(card => {
-        card.addEventListener("mouseover", function () {
-            this.querySelector(".project-details").style.transform = "translateY(0)";
-        });
-
-        card.addEventListener("mouseleave", function () {
-            this.querySelector(".project-details").style.transform = "translateY(100%)";
         });
     });
-});
+
+    /* ---------- Console signature ---------- */
+    if (window.console && console.log) {
+        console.log(
+            '%cAriel Halevy %c· GenAI + SW Engineer\n%cariel67788@icloud.com',
+            'font: 600 14px "Space Grotesk", sans-serif; color:#7cf0c1;',
+            'font: 400 12px monospace; color:#9aa7b4;',
+            'font: 400 11px monospace; color:#6b7785;'
+        );
+    }
+})();
